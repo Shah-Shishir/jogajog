@@ -23,9 +23,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cors());
 
-app.get("/", (req, res, next) => {
-  res.send("<h1>Welcome to Bacefook</h1>");
-});
+// app.get("/", (req, res, next) => {
+//   res.send("<h1>Welcome to Bacefook</h1>");
+// });
 
 app.use("/api/posts", postRoutes);
 
