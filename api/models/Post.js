@@ -18,6 +18,18 @@ const PostSchema = mongoose.Schema({
     type: Number,
     default: 0,
   },
+  hahas: {
+    type: Number,
+    default: 0,
+  },
+  sads: {
+    type: Number,
+    default: 0,
+  },
+  supports: {
+    type: Number,
+    default: 0,
+  },
   shares: {
     type: Number,
     default: 0,

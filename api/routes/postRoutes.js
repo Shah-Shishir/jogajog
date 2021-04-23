@@ -6,24 +6,30 @@ const Post = require("../models/Post");
 
 router.get("/", (req, res, next) => {
   const limit = 10;
-  const { page } = req.query;
+  let { page } = req.query;
+  page = page ? page : 1;
   let total = 0;
-  Post.countDocuments().then((count) => (total = count));
-  Post.find()
-    .select("_id description postedAt likes dislikes shares")
-    .limit(limit)
-    .skip((page - 1) * limit)
-    .exec()
-    .then((result) => {
-      res.status(200).json({
-        totalPages: Math.ceil(total / limit),
-        currentPage: +page,
-        totalPosts: total,
-        postCount: result.length,
-        posts: result,
-      });
-    })
-    .catch((error) => res.status(500).json({ error }));
+  Post.countDocuments().then((count) => {
+    total = count;
+    Post.find()
+      .select(
+        "_id description postedAt likes dislikes supports hahas sads shares"
+      )
+      .sort({ postedAt: -1 })
+      .limit(limit)
+      .skip((page - 1) * limit)
+      .exec()
+      .then((result) => {
+        res.status(200).json({
+          totalPages: Math.ceil(total / limit),
+          currentPage: +page,
+          totalPosts: total,
+          postCount: result.length,
+          posts: result,
+        });
+      })
+      .catch((error) => res.status(500).json({ error }));
+  });
 });
 
 router.post("/", (req, res, next) => {

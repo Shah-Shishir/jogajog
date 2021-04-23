@@ -1,26 +1,31 @@
+require("dotenv").config();
+
 const express = require("express");
 const app = express();
 const morgan = require("morgan");
 const mongoose = require("mongoose");
+const cors = require("cors");
 
 const PORT = process.env.PORT || 3000;
 
 const postRoutes = require("./api/routes/postRoutes");
 
 mongoose
-  .connect(
-    "mongodb+srv://admin:admin@cluster0.rjovb.mongodb.net/social-media-nodejs?retryWrites=true&w=majority",
-    {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    }
-  )
+  .connect(process.env.MONGO_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
   .then(() => console.log("MongoDB connected!"))
-  .catch(() => console.log("Error to connect mongodb!"));
+  .catch(() => console.log("Error to connect MongoDB!"));
 
 app.use(morgan("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(cors());
+
+app.get("/", (req, res, next) => {
+  res.send("<h1>Welcome to Bacefook</h1>");
+});
 
 app.use("/api/posts", postRoutes);
 
