@@ -8,7 +8,7 @@ const cors = require("cors");
 
 const PORT = process.env.PORT || 3000;
 
-const postRoutes = require("./api/routes/postRoutes");
+const postRoutes = require("./api/routes/post.route");
 
 mongoose
   .connect(process.env.MONGO_URI, {

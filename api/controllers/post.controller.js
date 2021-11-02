@@ -1,10 +1,7 @@
-const express = require("express");
-const router = express.Router();
 const mongoose = require("mongoose");
+const Post = require("../models/post.model");
 
-const Post = require("../models/Post");
-
-router.get("/", (req, res, next) => {
+const getPosts = (req, res, next) => {
   const limit = 10;
   let { page } = req.query;
   page = page ? page : 1;
@@ -30,9 +27,9 @@ router.get("/", (req, res, next) => {
       })
       .catch((error) => res.status(500).json({ error }));
   });
-});
+};
 
-router.post("/", (req, res, next) => {
+const createPost = (req, res, next) => {
   const createdPost = new Post({
     _id: new mongoose.Types.ObjectId(),
     description: req.body.description,
@@ -46,9 +43,9 @@ router.post("/", (req, res, next) => {
       })
     )
     .catch((error) => res.status(500).json({ error }));
-});
+};
 
-router.get("/:postId", (req, res, next) => {
+const getPost = (req, res, next) => {
   const id = req.params.postId;
   Post.findById(id)
     .exec()
@@ -62,9 +59,9 @@ router.get("/:postId", (req, res, next) => {
         res.status(500).json({ error });
       }
     });
-});
+};
 
-router.patch("/:postId", (req, res, next) => {
+const updatePost = (req, res, next) => {
   const id = req.params.postId;
   Post.findByIdAndUpdate(id, {
     description: req.body.description,
@@ -80,9 +77,9 @@ router.patch("/:postId", (req, res, next) => {
         res.status(500).json({ error });
       }
     });
-});
+};
 
-router.delete("/:postId", (req, res, next) => {
+const deletePost = (req, res, next) => {
   const id = req.params.postId;
   Post.remove({ _id: id })
     .exec()
@@ -96,6 +93,6 @@ router.delete("/:postId", (req, res, next) => {
         res.status(500).json({ error });
       }
     });
-});
+};
 
-module.exports = router;
+module.exports = { getPosts, createPost, getPost, updatePost, deletePost };
